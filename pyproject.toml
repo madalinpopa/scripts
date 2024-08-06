@@ -1,0 +1,50 @@
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "toolkit"
+description = "A toolkit utility with different python scripts"
+version = "0.1.0"
+authors = [
+    { name="Madalin Popa", email="madalin@coderustle.ro" }
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+
+[project.optional-dependencies]
+build = ["build","twine"]
+test = ["pytest","pytest-xdist",]
+dev = ["black","ruff","ipython","mypy","nox",]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+wpbackup = "toolkit.wordpress.backup:main"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+
+# Ingore yaml as there are not stubs installed
+[[tool.mypy.overrides]]
+module = "yaml.*"
+ignore_errors = true
+ignore_missing_imports = true
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+# pyproject.toml
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q -s -x"
+testpaths = [
+    "tests",
+    "integration",
+]
